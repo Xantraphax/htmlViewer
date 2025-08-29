@@ -180,9 +180,31 @@ loadHtmlBtn.addEventListener('click', () => {
 	if (url) loadHtmlFile(url);
 });
 
+// Funktion: CSS-Datei von Link laden
+async function loadCssFile(url) {
+	try {
+		const response = await fetch(url);
+		if (!response.ok) throw new Error(`Fehler beim Laden: ${response.status}`);
+		const cssContent = await response.text();
+		setCssSource(cssContent);
+		render();
+		status.textContent = `HTML-Datei von ${url} geladen`;
+	} catch (error) {
+		console.error('Fehler beim Laden der CSS-Datei:', error);
+		status.textContent = `Fehler beim Laden der Datei: ${error.message}`;
+	}
+}
+
+// Event für Button zum Laden der Datei
+loadCssBtn.addEventListener('click', () => {
+	const url = prompt('Bitte die URL der CSS-Datei eingeben:');
+	if (url) loadCssFile(url);
+});
+
 
 // Initial check
 checkForCssLink();
+
 
 
 
