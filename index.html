@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML Viewer</title>
+  <link rel="stylesheet" href="styles.css">
+   <!-- CodeMirror Styles -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/eclipse.min.css">
+</head>
+<body>
+  <div id="controls">
+    <button id="renderBtn">Rendern</button>
+	<button id="loadHtmlBtn">HTML-Laden</button>	
+    <label>
+      <input type="checkbox" id="autoRenderToggle">
+      Auto-Render
+    </label>
+    <span id="status"></span>
+  </div>
+
+  <div id="main">
+    <!-- Linke Seite: Editor mit Tabs -->
+    <div id="editor">
+      <div id="tabs">
+        <button id="tabHtml" class="active">HTML</button>
+        <button id="tabCss">CSS</button>
+      </div>
+      <div id="htmlEditor">
+        <textarea id="source" placeholder="Hier HTML-Code eingeben"></textarea>
+      </div>
+      <div id="cssEditor" class="hidden">
+        <textarea id="cssArea" placeholder="Hier CSS-Regeln eingeben"></textarea>
+      </div>
+    </div>
+
+    <!-- Rechte Seite: Vorschau -->
+    <iframe id="preview"></iframe>
+  </div>
+   <!-- CodeMirror JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+
+  <script src="app.js"></script>
+</body>
+</html>
