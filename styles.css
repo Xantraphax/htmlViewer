@@ -105,8 +105,9 @@ body {
   flex: 1;
 }
 .CodeMirror{
- height: 100vh;
+ height: 100vh !important;
 }
+
 
 
 
