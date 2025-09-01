@@ -6,6 +6,10 @@ body {
   flex-direction: column;
 }
 
+.hidden {
+  display: none !important;
+}
+
 #controls {
   background: #f0f0f0;
   padding: 0.5rem;
@@ -99,3 +103,4 @@ body {
   border: none;
   flex: 1;
 }
+
