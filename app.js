@@ -7,12 +7,17 @@ const cssTabBtn = document.getElementById('tabCss');
 const htmlEditorDiv = document.getElementById('htmlEditor');
 const cssEditorDiv = document.getElementById('cssEditor');
 const loadHtmlBtn = document.getElementById('loadHtmlBtn');
+const divider = document.getElementById("divider");
+const editor = document.getElementById("editor");
 
 const STORAGE_KEY = 'html_viewer_source_v1';
 const AUTORENDER_KEY = 'html_viewer_autorender';
 const CSS_KEY = 'html_viewer_css_v1';
 
 let cssContent = '';
+let isResizing = false;
+let pendingX = null;
+
 
 // CodeMirror initialisieren
 const sourceEditor = CodeMirror.fromTextArea(document.getElementById('source'), {
@@ -26,6 +31,34 @@ const cssEditor = CodeMirror.fromTextArea(document.getElementById('cssArea'), {
   lineNumbers: true,
   theme: 'eclipse'
 });
+
+//Resizing of editor
+divider.addEventListener("mousedown", (e) => {
+  isResizing = true;
+  divider.setPointerCapture(e.pointerId); // Wichtig!
+  document.body.style.cursor = "col-resize";
+});
+
+divider.addEventListener("pointermove", (e) => {
+  if (!isResizing) return;
+  pendingX = e.clientX;
+  requestAnimationFrame(updateWidth);
+});
+
+divider.addEventListener("pointerup", (e) => {
+  isResizing = false;
+  divider.releasePointerCapture(e.pointerId);
+  document.body.style.cursor = "default";
+});
+
+function updateWidth() {
+  if (pendingX === null) return;
+  let newWidth = pendingX;
+  if (newWidth < 150) newWidth = 150; // Mindestbreite
+  editor.style.width = newWidth + "px";
+  pendingX = null;
+}
+
 
 // Wrapper-Funktionen
 function getHtmlSource() {
@@ -126,7 +159,7 @@ cssTabBtn.addEventListener('click', () => {
 
 //Render after loading
 addEventListener("DOMContentLoaded", (event) => { 
-	render();
+	initFromUrlParams();
 })
 
 // Auto-Render speichern
@@ -201,11 +234,41 @@ loadCssBtn.addEventListener('click', () => {
 	if (url) loadCssFile(url);
 });
 
+// --- Neu: URL-Parameter einlesen und automatisch laden ---
+function getUrlParams() {
+  return new URLSearchParams(window.location.search);
+}
+
+async function initFromUrlParams() {
+  const params = getUrlParams();
+  const htmlUrl = params.get("html");
+  const cssUrl = params.get("css");
+
+  if (htmlUrl) {
+    try {
+      await loadHtmlFile(htmlUrl);
+      status.textContent = `HTML von ${htmlUrl} geladen`;
+    } catch (e) {
+      console.error("Fehler beim Laden von HTML über Parameter:", e);
+      status.textContent = `Fehler beim Laden von HTML: ${e.message}`;
+    }
+  }
+
+  if (cssUrl) {
+    try {
+      await loadCssFile(cssUrl);
+      status.textContent = `CSS von ${cssUrl} geladen`;
+    } catch (e) {
+      console.error("Fehler beim Laden von CSS über Parameter:", e);
+      status.textContent = `Fehler beim Laden von CSS: ${e.message}`;
+    }
+  }
+
+  // Falls nichts geladen wurde, normal rendern
+  if (!htmlUrl && !cssUrl) {
+    render();
+  }
+}
 
 // Initial check
 checkForCssLink();
-
-
-
-
-
