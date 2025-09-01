@@ -37,7 +37,7 @@ body {
   display: flex;
   flex-direction: column;
   border-right: 1px solid #ccc;
-  height: 100vh;
+   height: 100vh;
 }
 
 /* Tabs */
@@ -104,5 +104,9 @@ body {
   border: none;
   flex: 1;
 }
+.CodeMirror{
+ height: 100vh;
+}
+
 
 
