@@ -243,6 +243,8 @@ async function initFromUrlParams() {
   const params = getUrlParams();
   const htmlUrl = params.get("html");
   const cssUrl = params.get("css");
+  const menuParam = params.get("menu");
+  const autoParam = params.get("autorender");
 
   if (htmlUrl) {
     try {
@@ -263,6 +265,20 @@ async function initFromUrlParams() {
       status.textContent = `Fehler beim Laden von CSS: ${e.message}`;
     }
   }
+  if (menuParam === "0") {
+    document.getElementById("controls")?.classList.add("hidden"); 
+  } else if (menuParam === "1") {
+    document.getElementById("controls")?.classList.remove("hidden");
+  }
+
+  // AutoRender aktivieren/deaktivieren
+  if (autoParam === "1") {
+    autoRenderToggle.checked = true;
+    localStorage.setItem(AUTORENDER_KEY, "true");
+  } else if (autoParam === "0") {
+    autoRenderToggle.checked = false;
+    localStorage.setItem(AUTORENDER_KEY, "false");
+  }
 
   // Falls nichts geladen wurde, normal rendern
   if (!htmlUrl && !cssUrl) {
@@ -272,4 +288,5 @@ async function initFromUrlParams() {
 
 // Initial check
 checkForCssLink();
+
 
