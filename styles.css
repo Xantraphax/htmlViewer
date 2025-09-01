@@ -61,6 +61,11 @@ body {
   border-bottom: 2px solid dodgerblue;
   color: dodgerblue;
 }
+#divider {
+  width: 5px;
+  background: #ddd;
+  cursor: col-resize;
+}
 
 /* Editorbereiche */
 #htmlEditor,
@@ -68,6 +73,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
+  border-right: 1px solid #ccc;
 }
 
 #htmlEditor.hidden,
@@ -91,4 +97,5 @@ body {
 #preview {
   width: 50%;
   border: none;
+  flex: 1;
 }
