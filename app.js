@@ -33,7 +33,7 @@ const cssEditor = CodeMirror.fromTextArea(document.getElementById('cssArea'), {
 });
 
 //Resizing of editor
-divider.addEventListener("mousedown", (e) => {
+divider.addEventListener("pointerdown", (e) => {
   isResizing = true;
   divider.setPointerCapture(e.pointerId); // Wichtig!
   document.body.style.cursor = "col-resize";
@@ -272,3 +272,4 @@ async function initFromUrlParams() {
 
 // Initial check
 checkForCssLink();
+
