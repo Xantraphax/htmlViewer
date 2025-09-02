@@ -108,6 +108,39 @@ body {
  height: 100vh !important;
 }
 
+#jsOverlay{
+	position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 350px;
+    max-height: 400px;
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    font-family: monospace;
+    font-size: 12px;
+    border-radius: 5px;
+    z-index: 9999;
+    display: none;
+    box-shadow: 0 0 10px #000;
+}
 
+#jsOverlayHeader{
+	cursor: move;
+	background: rgba(255,255,255,0.1);
+	padding: 5px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: bold;
+}
 
+#jsOverlayReset{
+	margin-right:5px;;
+}
 
+#jsOverlayContent{
+	padding: 5px;
+	overflow-y: auto;
+	max-height: 350px;
+	white-space: pre-wrap;
+}
