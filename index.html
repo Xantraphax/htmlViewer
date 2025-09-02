@@ -13,6 +13,7 @@
     <button id="renderBtn">Rendern</button>
 	<button id="loadHtmlBtn">HTML-Laden</button>
 	<button id="loadCssBtn">CSS-Laden</button>	
+	<button id="loadJsBtn">JS-Laden</button>
     <label>
       <input type="checkbox" id="autoRenderToggle">
       Auto-Render
@@ -26,6 +27,7 @@
       <div id="tabs">
         <button id="tabHtml" class="active">HTML</button>
         <button id="tabCss">CSS</button>
+		<button id="tabJs">JS</button>
       </div>
       <div id="htmlEditor">
         <textarea id="source" placeholder="Hier HTML-Code eingeben"></textarea>
@@ -33,17 +35,32 @@
       <div id="cssEditor" class="hidden">
         <textarea id="cssArea" placeholder="Hier CSS-Regeln eingeben"></textarea>
       </div>
+	  <div id="jsEditor" class="hidden"> <!-- NEU -->
+		<textarea id="jsArea" placeholder="Hier JavaScript eingeben"></textarea>
+	  </div>
     </div>
 
     <!-- Rechte Seite: Vorschau -->
 	<div id="divider"></div>
     <iframe id="preview"></iframe>
   </div>
+  <div id="jsOverlay">
+    <div id="jsOverlayHeader">
+        Konsole
+        <div>
+            <button id="jsOverlayReset">Reset</button>
+            <button id="jsOverlayClose">X</button>
+        </div>
+    </div>
+    <div id="jsOverlayContent"></div>
+</div>
+
    <!-- CodeMirror JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
 
   <script src="app.js"></script>
 </body>
