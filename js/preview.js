@@ -19,7 +19,7 @@ function bridge(token) {
 export function setupPreview(editors, overlay) {
   const frame=required('preview');
   // Ohne allow-same-origin hat srcdoc eine isolierte (opaque) Origin.
-  frame.setAttribute('sandbox','allow-scripts');
+  frame.setAttribute('sandbox', 'allow-scripts allow-modals');
   let token='';
   window.addEventListener('message',e=>{
     if(e.source!==frame.contentWindow || !e.data || typeof e.data!=='object')return;
