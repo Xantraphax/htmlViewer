@@ -9,6 +9,10 @@ export function setupExport(editors) {
       setStatus('ZIP-Export nicht verfügbar: JSZip konnte nicht geladen werden.');
       return;
     }
+    const proposedName = window.prompt('Wie soll das ZIP-Archiv heißen?', 'html-projekt');
+    if (proposedName === null) return;
+    const archiveName = normalizeZipName(proposedName);
+    if (!archiveName) { setStatus('Bitte einen gültigen Archivnamen eingeben.'); return; }
     button.disabled = true;
     try {
       const html = editors.get('html');
@@ -25,7 +29,7 @@ export function setupExport(editors) {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'html-projekt.zip';
+      link.download = archiveName;
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -38,4 +42,10 @@ export function setupExport(editors) {
       button.disabled = false;
     }
   });
+}
+
+/** Verhindert Pfadbestandteile und ungültige Dateinamen im Download. */
+export function normalizeZipName(input) {
+  const base = String(input).trim().replace(/\.zip$/i, '').replace(/[\\/:*?"<>|\x00-\x1f]/g, '_').replace(/[. ]+$/g, '').slice(0, 120);
+  return base ? `${base}.zip` : '';
 }
