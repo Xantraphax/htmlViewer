@@ -6,6 +6,7 @@ import { setupPreview } from './preview.js';
 import { setupConsoleOverlay } from './console-overlay.js';
 import { setupResize } from './resize.js';
 import { setupImports } from './imports.js';
+import { setupExport } from './export.js';
 
 function init() {
   const auto=required('autoRenderToggle');
@@ -20,6 +21,7 @@ function init() {
   const overlay=setupConsoleOverlay();
   preview=setupPreview(editors,overlay);
   setupResize();
+  setupExport(editors);
   const imports=setupImports(editors,{onLoaded(name,{render}) {
     tabs.sync(editors.get('html'));
     if(render)preview.render();
