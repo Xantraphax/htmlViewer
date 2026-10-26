@@ -1,4 +1,5 @@
 import { required, setStatus } from './dom.js';
+import { ensureAssetLink } from './html-links.js';
 
 const LABELS={html:'HTML',css:'CSS',js:'JavaScript'};
 export function setupImports(editors,{ onLoaded }) {
@@ -14,6 +15,11 @@ export function setupImports(editors,{ onLoaded }) {
       if(!response.ok)throw new Error(`HTTP ${response.status}`);
       const content=await response.text();
       editors.set(name,content);
+      if (name === 'css' || name === 'js') {
+        const oldHtml = editors.get('html');
+        const newHtml = ensureAssetLink(oldHtml, name);
+        if (oldHtml !== newHtml) editors.set('html', newHtml);
+      }
       onLoaded(name,{render});
       setStatus(`${LABELS[name]}-Datei geladen: ${parsed.href}`);
       return true;
