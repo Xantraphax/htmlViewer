@@ -1,171 +1,31 @@
-html, body {
-  margin: 0;
-  font-family: sans-serif;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-* {
-  box-sizing: border-box;
-}
-
-.hidden {
-  display: none !important;
-}
-
-#controls {
-  background: #f0f0f0;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  border-bottom: 1px solid #ccc;
-}
-#controls,
-#tabs {
-  flex-shrink: 0;
-}
-
-#status {
-  flex: 1;
-  color: #555;
-  font-size: 0.9rem;
-}
-
-#main {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
-	min-height: 0;
-}
-
-/* Linke Seite Editor */
-#editor {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid #ccc;
-
-  min-height: 0;
-  min-width: 0;
-  overflow: hidden;
-}
-
-/* Tabs */
-#tabs {
-  display: flex;
-  border-bottom: 1px solid #ccc;
-  background: #fafafa;
-}
-
-#tabs button {
-  flex: 1;
-  padding: 0.5rem;
-  border: none;
-  border-right: 1px solid #ccc;
-  background: #e9e9e9;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-#tabs button:last-child {
-  border-right: none;
-}
-
-#tabs button.active {
-  background: white;
-  border-bottom: 2px solid dodgerblue;
-  color: dodgerblue;
-}
-#divider {
-  width: 5px;
-  background: #ddd;
-  cursor: col-resize;
-}
-
-/* Editorbereiche */
-#htmlEditor,
-#cssEditor,
-#jsEditor {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
-	border-right: 1px solid #ccc;
-}
-
-#htmlEditor.hidden,
-#cssEditor.hidden {
-  display: none;
-}
-
-#source,
-#cssArea {
-  flex: 1;
-  width: 100%;
-  border: none;
-  padding: 0.5rem;
-  font-family: monospace;
-  font-size: 14px;
-  resize: none;
-  outline: none;
-}
-
-/* Rechte Seite Vorschau */
-#preview {
-  width: 50%;
-  border: none;
-  min-width: 0;
-  min-height: 0;
-  flex: 1;
-}
-.CodeMirror {
-  flex: 1;
-  height: 100%;
-  min-height: 0;
-  font-size: 14px;
-}
-
-.CodeMirror-scroll {
-  overflow: auto !important;
-}
-
-#jsOverlay{
-	position: fixed;
-    top: 10px;
-    right: 10px;
-    width: 350px;
-    max-height: 400px;
-    background: rgba(0,0,0,0.85);
-    color: #fff;
-    font-family: monospace;
-    font-size: 12px;
-    border-radius: 5px;
-    z-index: 9999;
-    display: none;
-    box-shadow: 0 0 10px #000;
-}
-
-#jsOverlayHeader{
-	cursor: move;
-	background: rgba(255,255,255,0.1);
-	padding: 5px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	font-weight: bold;
-}
-
-#jsOverlayReset{
-	margin-right:5px;;
-}
-
-#jsOverlayContent{
-	padding: 5px;
-	overflow-y: auto;
-	max-height: 350px;
-	white-space: pre-wrap;
-}
+* {box-sizing: border-box}
+html,body {height:100%;width:100%;margin:0;overflow:hidden}
+body {font-family:sans-serif;display:flex;flex-direction:column}
+.hidden, [hidden] {display:none!important}
+#controls {background:#f0f0f0;padding:.5rem;display:flex;align-items:center;gap:1rem;border-bottom:1px solid #ccc;flex-shrink:0;position:relative;z-index:10}
+#controls button {cursor:pointer}
+#status {flex:1;min-width:0;color:#555;font-size:.9rem}
+#main {flex:1;min-height:0;display:flex;overflow:hidden}
+#editor {width:50%;min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden;border-right:1px solid #ccc}
+#tabs {display:flex;flex-shrink:0;border-bottom:1px solid #ccc;background:#fafafa}
+#tabs button {flex:1;padding:.5rem;border:0;border-right:1px solid #ccc;background:#e9e9e9;cursor:pointer;font-weight:bold}
+#tabs button.active {background:#fff;border-bottom:2px solid dodgerblue;color:dodgerblue}
+#htmlEditor,#cssEditor,#jsEditor {flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+#source,#cssArea,#jsArea {width:100%;flex:1;min-height:0}
+.CodeMirror {flex:1;height:100%;min-height:0;font-size:14px}
+.CodeMirror-scroll {overflow:auto!important}
+#divider {width:5px;flex-shrink:0;background:#ddd;cursor:col-resize;touch-action:none}
+#preview {flex:1;width:0;min-width:0;min-height:0;border:0}
+.insert-menu {position:relative;flex-shrink:0}
+.insert-menu summary {display:list-item;list-style:none;cursor:pointer;padding:.38rem .8rem;border:1px solid #aaa;border-radius:4px;background:white;user-select:none}
+.insert-menu summary::-webkit-details-marker {display:none}
+.insert-menu summary::after {content:' ▾'}
+.insert-menu[open] summary::after {content:' ▴'}
+.insert-menu-items {position:absolute;top:calc(100% + 4px);left:0;min-width:175px;background:white;border:1px solid #bbb;border-radius:5px;padding:4px;box-shadow:0 4px 14px #0002;display:flex;flex-direction:column;z-index:100}
+.insert-menu-items button {display:block;width:100%;text-align:left;background:white;border:0;padding:.55rem .65rem;border-radius:3px;white-space:nowrap}
+.insert-menu-items button:hover,.insert-menu-items button:focus-visible {background:#e7f1ff}
+.menu-separator {border-top:1px solid #ddd;margin:4px 0}
+#jsOverlay {position:fixed;top:10px;right:10px;width:350px;max-width:90vw;max-height:400px;background:rgba(0,0,0,.85);color:white;font-family:monospace;font-size:12px;border-radius:5px;z-index:9999;display:none;box-shadow:0 0 10px #000}
+#jsOverlayHeader {cursor:move;background:rgba(255,255,255,.1);padding:5px;display:flex;justify-content:space-between;align-items:center;font-weight:bold}
+#jsOverlayReset {margin-right:5px}
+#jsOverlayContent {padding:5px;overflow-y:auto;max-height:350px;white-space:pre-wrap}
