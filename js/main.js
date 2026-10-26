@@ -21,7 +21,7 @@ function init() {
   preview=setupPreview(editors,overlay);
   setupResize();
   const imports=setupImports(editors,{onLoaded(name,{render}) {
-    if(name==='html')tabs.sync(editors.get('html'));
+    tabs.sync(editors.get('html'));
     if(render)preview.render();
   }});
   required('renderBtn').addEventListener('click',()=>preview.render());
