@@ -1,34 +1,91 @@
 import { required } from './dom.js';
 
 export function setupConsoleOverlay() {
-  const overlay=required('jsOverlay'), header=required('jsOverlayHeader'), content=required('jsOverlayContent');
-  required('jsOverlayClose').addEventListener('click',()=>{overlay.style.display='none';});
-  required('jsOverlayReset').addEventListener('click',()=>{content.replaceChildren();});
-  let start=null;
-  header.style.touchAction='none';
-  header.addEventListener('pointerdown',e=>{
-    if (e.button!==0) return;
-    start={id:e.pointerId,x:e.clientX-overlay.offsetLeft,y:e.clientY-overlay.offsetTop};
-    header.setPointerCapture(e.pointerId);
+  const overlay = required('jsOverlay');
+  const header = required('jsOverlayHeader');
+  const content = required('jsOverlayContent');
+  const closeButton = required('jsOverlayClose');
+  const resetButton = required('jsOverlayReset');
+
+  // Geschlossen bleibt geschlossen, bis der Nutzer neu rendert.
+  let closedByUser = false;
+  let count = 0;
+  let drag = null;
+
+  closeButton.type = 'button';
+  resetButton.type = 'button';
+  for (const button of [closeButton, resetButton]) {
+    // Ein Button-Klick darf das Ziehen des Headers nicht starten.
+    button.addEventListener('pointerdown', event => event.stopPropagation());
+  }
+
+  closeButton.addEventListener('click', event => {
+    event.stopPropagation();
+    closedByUser = true;
+    overlay.style.display = 'none';
   });
-  header.addEventListener('pointermove',e=>{
-    if (!start||e.pointerId!==start.id) return;
-    overlay.style.left=`${Math.max(0,Math.min(innerWidth-overlay.offsetWidth,e.clientX-start.x))}px`;
-    overlay.style.top=`${Math.max(0,Math.min(innerHeight-overlay.offsetHeight,e.clientY-start.y))}px`;
+
+  function clear() {
+    content.replaceChildren();
+    count = 0;
+  }
+  resetButton.addEventListener('click', event => {
+    event.stopPropagation();
+    clear();
   });
-  function end(e) { if (start?.id===e.pointerId) start=null; }
-  header.addEventListener('pointerup',end);
-  header.addEventListener('pointercancel',end);
-  let count=0;
+
+  header.style.touchAction = 'none';
+  header.addEventListener('pointerdown', event => {
+    if (event.button !== 0 || event.target.closest('button')) return;
+    const bounds = overlay.getBoundingClientRect();
+    drag = {
+      id: event.pointerId,
+      offsetX: event.clientX - bounds.left,
+      offsetY: event.clientY - bounds.top
+    };
+    // Die ursprüngliche Positionierung per right darf left nicht überlagern.
+    overlay.style.left = `${bounds.left}px`;
+    overlay.style.top = `${bounds.top}px`;
+    overlay.style.right = 'auto';
+    header.setPointerCapture(event.pointerId);
+  });
+
+  header.addEventListener('pointermove', event => {
+    if (!drag || event.pointerId !== drag.id) return;
+    const maxX = Math.max(0, window.innerWidth - overlay.offsetWidth);
+    const maxY = Math.max(0, window.innerHeight - overlay.offsetHeight);
+    overlay.style.left = `${Math.max(0, Math.min(maxX, event.clientX - drag.offsetX))}px`;
+    overlay.style.top = `${Math.max(0, Math.min(maxY, event.clientY - drag.offsetY))}px`;
+  });
+
+  function stopDrag(event) {
+    if (drag?.id !== event.pointerId) return;
+    drag = null;
+    if (header.hasPointerCapture(event.pointerId)) header.releasePointerCapture(event.pointerId);
+  }
+  header.addEventListener('pointerup', stopDrag);
+  header.addEventListener('pointercancel', stopDrag);
+  header.addEventListener('lostpointercapture', () => { drag = null; });
+
   return {
-    show(message,type='log') {
-      overlay.style.display='block';
-      const line=document.createElement('div');
-      line.textContent=`[${type}] ${String(message)}`;
+    show(message, type = 'log') {
+      const line = document.createElement('div');
+      line.textContent = `[${type}] ${String(message)}`;
       content.appendChild(line);
-      if (++count>500) {content.firstElementChild?.remove();count--;}
-      content.scrollTop=content.scrollHeight;
+      count++;
+      if (count > 500) {
+        content.firstElementChild?.remove();
+        count--;
+      }
+      content.scrollTop = content.scrollHeight;
+      if (!closedByUser) overlay.style.display = 'block';
     },
-    clear() {content.replaceChildren();count=0;}
+    clear,
+    beginRender() {
+      clear();
+      closedByUser = false;
+      // Noch nicht anzeigen; erst bei einer Konsolenmeldung.
+      overlay.style.display = 'none';
+    }
   };
 }
