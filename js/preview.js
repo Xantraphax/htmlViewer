@@ -19,7 +19,7 @@ function bridge(token) {
 export function setupPreview(editors, overlay) {
   const frame=required('preview');
   // Ohne allow-same-origin hat srcdoc eine isolierte (opaque) Origin.
-  frame.setAttribute('sandbox', 'allow-scripts allow-modals');
+  frame.setAttribute('sandbox','allow-scripts allow-modals');
   let token='';
   window.addEventListener('message',e=>{
     if(e.source!==frame.contentWindow || !e.data || typeof e.data!=='object')return;
@@ -32,7 +32,7 @@ export function setupPreview(editors, overlay) {
     const doc=new DOMParser().parseFromString(html,'text/html');
     const css=editors.get('css'),js=editors.get('js');
     token=crypto.randomUUID();
-    overlay.clear();
+    overlay.beginRender();
     // Console-Bootstrap MUSS vor Benutzerskripten stehen.
     const consoleScript=doc.createElement('script');
     consoleScript.textContent=inlineSafe(bridge(token));
