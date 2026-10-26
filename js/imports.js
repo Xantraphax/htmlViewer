@@ -29,6 +29,19 @@ export function setupImports(editors,{ onLoaded }) {
       throw e;
     } finally {if(requests.get(name)===controller)requests.delete(name);}
   }
+  function createLink(kind) {
+    const html=editors.get('html');
+    const updated=ensureAssetLink(html,kind);
+    if(updated!==html) editors.set('html',updated);
+    onLoaded(kind,{render:true});
+    setStatus(updated===html ? `${LABELS[kind]}-Verknüpfung bereits vorhanden` : `${LABELS[kind]}-Verknüpfung erstellt`);
+  }
+  required('createCssBtn').addEventListener('click',()=>createLink('css'));
+  required('createJsBtn').addEventListener('click',()=>createLink('js'));
+  const menu=required('insertMenu');
+  menu.querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>{menu.open=false;}));
+  document.addEventListener('pointerdown',event=>{if(!menu.contains(event.target))menu.open=false;});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape')menu.open=false;});
   const ids={html:'loadHtmlBtn',css:'loadCssBtn',js:'loadJsBtn'};
   for(const [name,id] of Object.entries(ids)){
     required(id).addEventListener('click',async()=>{
