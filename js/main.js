@@ -7,6 +7,7 @@ import { setupConsoleOverlay } from './console-overlay.js';
 import { setupResize } from './resize.js';
 import { setupImports } from './imports.js';
 import { setupExport } from './export.js';
+import { setupZipImport } from './import-zip.js';
 
 function init() {
   const auto=required('autoRenderToggle');
@@ -22,6 +23,7 @@ function init() {
   preview=setupPreview(editors,overlay);
   setupResize();
   setupExport(editors);
+  setupZipImport(editors, { onImported() { tabs.sync(editors.get('html')); preview.render(); } });
   const imports=setupImports(editors,{onLoaded(name,{render}) {
     tabs.sync(editors.get('html'));
     if(render)preview.render();
