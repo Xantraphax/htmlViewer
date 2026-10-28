@@ -43,3 +43,14 @@ body {font-family:sans-serif;display:flex;flex-direction:column}
 .cloud-folder-item { display:block; width:100%; text-align:left; background:white; border:0; border-radius:4px; }
 .cloud-folder-item:hover, .cloud-folder-item:focus-visible { background:#e7f1ff; }
 .cloud-file-item { padding:.3rem .5rem; color:#555; overflow-wrap:anywhere; }
+
+/* Cloud laden nutzt dasselbe Layout wie Cloud speichern. */
+#cloudLoadDialog { width:min(640px,94vw); max-height:85vh; border:1px solid #aaa; border-radius:8px; padding:1.2rem; color:#222; }
+#cloudLoadDialog::backdrop { background:rgba(0,0,0,.45); }
+#cloudLoadDialog h2 { margin:0 0 1rem; font-size:1.2rem; }
+#cloudLoadDialog label { display:flex; flex-direction:column; gap:.25rem; margin-bottom:.75rem; }
+#cloudLoadDialog input { padding:.5rem; width:100%; }
+.cloud-file-choice { display:block; width:100%; text-align:left; border:0; background:white; border-radius:4px; padding:.5rem; cursor:pointer; overflow-wrap:anywhere; }
+.cloud-file-choice:hover, .cloud-file-choice:focus-visible { background:#e7f1ff; }
+.cloud-file-choice[aria-pressed="true"] { background:#cfe5ff; outline:2px solid #2878c7; }
+#cloudLoadSelected { font-size:.9rem; color:#444; overflow-wrap:anywhere; }
