@@ -1,12 +1,8 @@
 import { required, setStatus } from './dom.js';
 import { importZipProject } from './import-zip.js';
 
-/** ZIP-Projekt über eine URL beziehen, wenn Server CORS-fähige ZIP-Antworten liefert. */
-export function setupLinkImport(editors, { onImported }) {
-  const button = required('importLinkBtn');
-  button.addEventListener('click', async () => {
-    const entered = window.prompt('Direkten Downloadlink zu einem ZIP-Archiv eingeben:');
-    if (entered === null || !entered.trim()) return;
+/** Gemeinsamer Import für Menübutton und ?zip=... . */
+export async function importZipFromUrl(entered, editors, onImported) {
     let url;
     try {
       url = new URL(entered.trim());
@@ -14,10 +10,8 @@ export function setupLinkImport(editors, { onImported }) {
         throw new Error('Nur HTTP- und HTTPS-Links sind erlaubt.');
       }
     } catch (error) {
-      setStatus(`Ungültiger Link: ${error.message}`);
-      return;
+      throw new Error(`Ungültiger Link: ${error.message}`);
     }
-    button.disabled = true;
     setStatus('ZIP-Datei wird über den Link geladen …');
     try {
       // Kein no-cors: opaque Responses können nicht als ZIP gelesen werden.
@@ -33,7 +27,7 @@ export function setupLinkImport(editors, { onImported }) {
           ![[3,4],[5,6],[7,8]].some(([a,b]) => signature[2] === a && signature[3] === b)) {
         throw new Error('Dieser Link liefert keine ZIP-Datei, sondern vermutlich eine Freigabe- oder Anmeldeseite. Bitte einen direkten ZIP-Downloadlink verwenden.');
       }
-      await importZipProject(blob, url.pathname.split('/').pop() || 'Online-Projekt', editors, onImported);
+      return await importZipProject(blob, url.pathname.split('/').pop() || 'Online-Projekt', editors, onImported);
     } catch (error) {
       console.error('ZIP-Link-Import fehlgeschlagen:', error);
       if (error instanceof TypeError) {
@@ -41,6 +35,19 @@ export function setupLinkImport(editors, { onImported }) {
       } else {
         setStatus(`ZIP-Link-Import fehlgeschlagen: ${error.message}`);
       }
+      return false;
+    }
+}
+
+/** Manueller Import-Button verwendet dieselbe Verarbeitung wie der URL-Parameter. */
+export function setupLinkImport(editors, { onImported }) {
+  const button = required('importLinkBtn');
+  button.addEventListener('click', async () => {
+    const entered = window.prompt('Direkten Downloadlink zu einem ZIP-Archiv eingeben:');
+    if (!entered?.trim()) return;
+    button.disabled = true;
+    try {
+      await importZipFromUrl(entered.trim(), editors, onImported);
     } finally {
       button.disabled = false;
     }
