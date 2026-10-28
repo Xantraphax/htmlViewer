@@ -2,7 +2,7 @@ import { required, setStatus } from './dom.js';
 import { importZipProject } from './import-zip.js';
 
 /** Gemeinsamer Import für Menübutton und ?zip=... . */
-export async function importZipFromUrl(entered, editors, onImported) {
+export async function importZipFromUrl(entered, editors, onImported, options = {}) {
     let url;
     try {
       url = new URL(entered.trim());
@@ -27,7 +27,7 @@ export async function importZipFromUrl(entered, editors, onImported) {
           ![[3,4],[5,6],[7,8]].some(([a,b]) => signature[2] === a && signature[3] === b)) {
         throw new Error('Dieser Link liefert keine ZIP-Datei, sondern vermutlich eine Freigabe- oder Anmeldeseite. Bitte einen direkten ZIP-Downloadlink verwenden.');
       }
-      return await importZipProject(blob, url.pathname.split('/').pop() || 'Online-Projekt', editors, onImported);
+      return await importZipProject(blob, url.pathname.split('/').pop() || 'Online-Projekt', editors, onImported, options);
     } catch (error) {
       console.error('ZIP-Link-Import fehlgeschlagen:', error);
       if (error instanceof TypeError) {
@@ -47,7 +47,7 @@ export function setupLinkImport(editors, { onImported }) {
     if (!entered?.trim()) return;
     button.disabled = true;
     try {
-      await importZipFromUrl(entered.trim(), editors, onImported);
+      await importZipFromUrl(entered.trim(), editors, onImported, options);
     } finally {
       button.disabled = false;
     }
