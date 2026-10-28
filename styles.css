@@ -67,3 +67,18 @@ body {font-family:sans-serif;display:flex;flex-direction:column}
 .cloud-delete-entry .cloud-delete-select { flex:0 0 auto; border:1px solid #b44; color:#923; background:#fff; border-radius:4px; padding:.4rem; cursor:pointer; }
 .cloud-delete-select[aria-pressed="true"] { background:#fbdada; outline:2px solid #b44; }
 #cloudDeleteConfirm:not(:disabled) { color:white; background:#a32222; border:1px solid #891919; border-radius:4px; padding:.5rem .8rem; }
+
+/* Einheitliche Toolbar: Icon-Buttons und Dropdowns */
+#controls {gap:.5rem;flex-wrap:wrap}
+#controls .toolbar-icon-btn, #controls .insert-menu > summary {
+  height:34px;min-width:36px;display:inline-flex;align-items:center;justify-content:center;
+  padding:.38rem .7rem;border:1px solid #aaa;border-radius:4px;background:#fff;
+  font:inherit;color:#222;cursor:pointer;box-sizing:border-box;
+}
+#controls .toolbar-icon-btn:hover, #controls .insert-menu > summary:hover {background:#e7f1ff}
+#controls .toolbar-icon-btn:focus-visible, #controls .insert-menu > summary:focus-visible {outline:2px solid dodgerblue;outline-offset:2px}
+#controls .toolbar-icon-btn svg {width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#controls .toolbar-menu .insert-menu-items {z-index:200}
+#controls .toolbar-menu:last-of-type .insert-menu-items {left:auto;right:0}
+#controls .insert-menu summary {white-space:nowrap}
+@media(max-width:700px) {#controls {gap:.35rem;padding:.35rem} #status {flex-basis:100%;order:5}}
