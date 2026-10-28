@@ -8,7 +8,7 @@ import { setupResize } from './resize.js';
 import { setupImports } from './imports.js';
 import { setupExport } from './export.js';
 import { setupZipImport } from './import-zip.js';
-import { setupLinkImport } from './import-link.js';
+import { setupLinkImport, importZipFromUrl } from './import-link.js';
 
 function init() {
   const auto=required('autoRenderToggle');
@@ -51,14 +51,27 @@ function init() {
     }
     const menu=params.get('menu');
     if(menu==='0'||menu==='1')document.getElementById('controls')?.classList.toggle('hidden',menu==='0');
-    for(const name of ['html','css','js']){
-      const url=params.get(name);
-      if(!url)continue;
-      try {await imports.load(name,url,{render:false});}
-      catch(e){console.error(`Fehler beim ${name.toUpperCase()}-Import`,e);}
+    // ?zip=... lädt ein komplettes Projekt und hat Vorrang vor ?html=, ?css=, ?js=.
+    // Dadurch können Einzeldateien das ZIP-Projekt nicht versehentlich überschreiben.
+    const zipUrl=params.get('zip');
+    if(zipUrl){
+      try {
+        await importZipFromUrl(zipUrl, editors, onProjectImported);
+      } catch(e) {
+        console.error('Ungültiger ZIP-URL-Parameter:',e);
+        setStatus(`ZIP-Link ungültig: ${e.message}`);
+      }
+    } else {
+      for(const name of ['html','css','js']){
+        const url=params.get(name);
+        if(!url)continue;
+        try {await imports.load(name,url,{render:false});}
+        catch(e){console.error(`Fehler beim ${name.toUpperCase()}-Import`,e);}
+      }
     }
     tabs.sync(editors.get('html'));
-    preview.render();
+    // ZIP-Import rendert bereits nach Bestätigung; ansonsten Startvorschau laden.
+    if(!zipUrl) preview.render();
   }
   initializeUrl().catch(e=>setStatus(`Initialisierungsfehler: ${e.message}`));
 }
