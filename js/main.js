@@ -12,6 +12,7 @@ import { setupCloudLoad } from './cloud-load.js';
 import { setupCloudDelete } from './cloud-delete.js';
 import { setupZipImport } from './import-zip.js';
 import { setupLinkImport, importZipFromUrl } from './import-link.js';
+import { setupToolbar } from './toolbar.js';
 
 function init() {
   const auto=required('autoRenderToggle');
@@ -26,6 +27,7 @@ function init() {
   const overlay=setupConsoleOverlay();
   preview=setupPreview(editors,overlay);
   setupResize();
+  setupToolbar();
   setupExport(editors);
   setupCloudSave(editors);
   const onProjectImported = () => { tabs.sync(editors.get('html')); preview.render(); };
@@ -62,7 +64,7 @@ function init() {
     const zipUrl=params.get('zip');
     if(zipUrl){
       try {
-        await importZipFromUrl(zipUrl, editors, onProjectImported);
+        await importZipFromUrl(zipUrl, editors, onProjectImported, { confirmOverwrite: false });
       } catch(e) {
         console.error('Ungültiger ZIP-URL-Parameter:',e);
         setStatus(`ZIP-Link ungültig: ${e.message}`);
