@@ -15,7 +15,7 @@ body {font-family:sans-serif;display:flex;flex-direction:column}
 .CodeMirror {flex:1;height:100%;min-height:0;font-size:14px}
 .CodeMirror-scroll {overflow:auto!important}
 #divider {width:5px;flex-shrink:0;background:#ddd;cursor:col-resize;touch-action:none}
-#preview {flex:1;width:0;min-width:0;min-height:0;border:0}
+#preview {flex:1;width:0;min-width:0;min-height:0;border:0;background-color:#fff}
 .insert-menu {position:relative;flex-shrink:0}
 .insert-menu summary {display:list-item;list-style:none;cursor:pointer;padding:.38rem .8rem;border:1px solid #aaa;border-radius:4px;background:white;user-select:none}
 .insert-menu summary::-webkit-details-marker {display:none}
@@ -82,3 +82,16 @@ body {font-family:sans-serif;display:flex;flex-direction:column}
 #controls .toolbar-menu:last-of-type .insert-menu-items {left:auto;right:0}
 #controls .insert-menu summary {white-space:nowrap}
 @media(max-width:700px) {#controls {gap:.35rem;padding:.35rem} #status {flex-basis:100%;order:5}}
+
+
+/* Vollbildansicht: der Host-Viewer bleibt hell, auch bei transparentem iFrame.
+   Die Hintergrundfarbe aus dem HTML-/CSS-Editor wird innerhalb des iFrames
+   durch preview.js nur dann durch Weiß ergänzt, wenn keine eigene gesetzt ist. */
+:root:fullscreen,
+html:fullscreen,
+body:fullscreen,
+#main:fullscreen,
+#editor:fullscreen,
+#preview:fullscreen {
+  background-color: #fff;
+}
