@@ -54,3 +54,16 @@ body {font-family:sans-serif;display:flex;flex-direction:column}
 .cloud-file-choice:hover, .cloud-file-choice:focus-visible { background:#e7f1ff; }
 .cloud-file-choice[aria-pressed="true"] { background:#cfe5ff; outline:2px solid #2878c7; }
 #cloudLoadSelected { font-size:.9rem; color:#444; overflow-wrap:anywhere; }
+
+/* Cloud löschen: gleiche Navigation, markierbare Dateien und Ordner */
+#cloudDeleteDialog { width:min(640px,94vw); max-height:85vh; border:1px solid #aaa; border-radius:8px; padding:1.2rem; color:#222; }
+#cloudDeleteDialog::backdrop { background:rgba(0,0,0,.45); }
+#cloudDeleteDialog h2 { margin:0 0 1rem; font-size:1.2rem; }
+#cloudDeleteDialog label { display:flex; flex-direction:column; gap:.25rem; margin-bottom:.75rem; }
+#cloudDeleteDialog input { padding:.5rem; width:100%; }
+#cloudDeleteSelected { font-size:.9rem; overflow-wrap:anywhere; }
+.cloud-delete-entry { display:flex; align-items:center; gap:.4rem; margin:.2rem 0; }
+.cloud-delete-entry .cloud-folder-item, .cloud-delete-entry .cloud-file-choice { flex:1; min-width:0; }
+.cloud-delete-entry .cloud-delete-select { flex:0 0 auto; border:1px solid #b44; color:#923; background:#fff; border-radius:4px; padding:.4rem; cursor:pointer; }
+.cloud-delete-select[aria-pressed="true"] { background:#fbdada; outline:2px solid #b44; }
+#cloudDeleteConfirm:not(:disabled) { color:white; background:#a32222; border:1px solid #891919; border-radius:4px; padding:.5rem .8rem; }
