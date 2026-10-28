@@ -9,6 +9,7 @@ import { setupImports } from './imports.js';
 import { setupExport } from './export.js';
 import { setupCloudSave } from './cloud-save.js';
 import { setupCloudLoad } from './cloud-load.js';
+import { setupCloudDelete } from './cloud-delete.js';
 import { setupZipImport } from './import-zip.js';
 import { setupLinkImport, importZipFromUrl } from './import-link.js';
 
@@ -29,6 +30,7 @@ function init() {
   setupCloudSave(editors);
   const onProjectImported = () => { tabs.sync(editors.get('html')); preview.render(); };
   setupCloudLoad(editors, { onImported: onProjectImported });
+  setupCloudDelete();
   setupZipImport(editors, { onImported: onProjectImported });
   setupLinkImport(editors, { onImported: onProjectImported });
   const imports=setupImports(editors,{onLoaded(name,{render}) {
