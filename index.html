@@ -25,6 +25,7 @@
     <button id="exportBtn" type="button">Exportieren (ZIP)</button>
     <button id="cloudSaveBtn" type="button">Cloud speichern</button>
     <button id="cloudLoadBtn" type="button">Cloud laden</button>
+    <button id="cloudDeleteBtn" type="button">Cloud löschen</button>
     <button id="importZipBtn" type="button">ZIP importieren</button>
     <button id="importLinkBtn" type="button">ZIP per Link importieren</button>
     <input id="importZipFile" type="file" accept=".zip,application/zip,application/x-zip-compressed" hidden>
@@ -62,6 +63,22 @@
     <div class="cloud-dialog-actions">
       <button id="cloudLoadCancel" type="button">Abbrechen</button>
       <button id="cloudLoadImport" type="button" disabled>Ausgewähltes ZIP laden</button>
+    </div>
+  </dialog>
+  <dialog id="cloudDeleteDialog" aria-labelledby="cloudDeleteTitle">
+    <h2 id="cloudDeleteTitle">Projekte aus R2 löschen</h2>
+    <label>Cloud-Passwort <input id="cloudDeletePassword" type="password" autocomplete="off"></label>
+    <div class="cloud-browser-toolbar">
+      <button id="cloudDeleteReload" type="button">Ordner anzeigen / Aktualisieren</button>
+      <button id="cloudDeleteBack" type="button">↑ Zurück</button>
+    </div>
+    <p>Aktueller Ordner: <strong id="cloudDeletePath">projects/</strong></p>
+    <div class="cloud-folder-list" id="cloudDeleteFolders" aria-label="Ordner zum Öffnen oder Löschen"></div>
+    <div class="cloud-file-list" id="cloudDeleteFiles" aria-label="ZIP-Dateien zum Löschen"></div>
+    <p id="cloudDeleteSelected">Nichts ausgewählt.</p>
+    <div class="cloud-dialog-actions">
+      <button id="cloudDeleteCancel" type="button">Schließen</button>
+      <button id="cloudDeleteConfirm" type="button" disabled>Auswahl löschen</button>
     </div>
   </dialog>
   <div id="main">
