@@ -2,7 +2,7 @@ import { required, setStatus } from './dom.js';
 import { createProjectZip, normalizeZipName } from './export.js';
 
 // Hier dieselbe veröffentlichte Worker-URL eintragen wie bisher (ohne /upload).
-const WORKER_URL = '';
+const WORKER_URL = 'https://html-viewer-upload.xantraphax.workers.dev';
 const MAX_BYTES = 10 * 1024 * 1024;
 
 export function setupCloudSave(editors) {
