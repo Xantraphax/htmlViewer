@@ -29,3 +29,17 @@ body {font-family:sans-serif;display:flex;flex-direction:column}
 #jsOverlayHeader {cursor:move;background:rgba(255,255,255,.1);padding:5px;display:flex;justify-content:space-between;align-items:center;font-weight:bold}
 #jsOverlayReset {margin-right:5px}
 #jsOverlayContent {padding:5px;overflow-y:auto;max-height:350px;white-space:pre-wrap}
+
+/* Cloudflare R2: Ordnerauswahl beim Speichern */
+#cloudSaveDialog { width:min(640px,94vw); max-height:85vh; border:1px solid #aaa; border-radius:8px; padding:1.2rem; color:#222; }
+#cloudSaveDialog::backdrop { background:rgba(0,0,0,.45); }
+#cloudSaveDialog h2 { margin:0 0 1rem; font-size:1.2rem; }
+#cloudSaveDialog label { display:flex; flex-direction:column; gap:.25rem; margin-bottom:.75rem; }
+#cloudSaveDialog input { padding:.5rem; width:100%; box-sizing:border-box; }
+.cloud-browser-toolbar, .cloud-dialog-actions { display:flex; gap:.5rem; flex-wrap:wrap; margin:.8rem 0; }
+.cloud-dialog-actions { justify-content:flex-end; }
+.cloud-browser-toolbar button, .cloud-dialog-actions button, .cloud-folder-item { padding:.5rem .7rem; cursor:pointer; }
+.cloud-folder-list, .cloud-file-list { max-height:165px; overflow:auto; padding:.5rem; border:1px solid #ddd; border-radius:4px; margin:.35rem 0; }
+.cloud-folder-item { display:block; width:100%; text-align:left; background:white; border:0; border-radius:4px; }
+.cloud-folder-item:hover, .cloud-folder-item:focus-visible { background:#e7f1ff; }
+.cloud-file-item { padding:.3rem .5rem; color:#555; overflow-wrap:anywhere; }
