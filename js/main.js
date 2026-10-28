@@ -7,6 +7,7 @@ import { setupConsoleOverlay } from './console-overlay.js';
 import { setupResize } from './resize.js';
 import { setupImports } from './imports.js';
 import { setupExport } from './export.js';
+import { setupCloudSave } from './cloud-save.js';
 import { setupZipImport } from './import-zip.js';
 import { setupLinkImport, importZipFromUrl } from './import-link.js';
 
@@ -24,6 +25,7 @@ function init() {
   preview=setupPreview(editors,overlay);
   setupResize();
   setupExport(editors);
+  setupCloudSave(editors);
   const onProjectImported = () => { tabs.sync(editors.get('html')); preview.render(); };
   setupZipImport(editors, { onImported: onProjectImported });
   setupLinkImport(editors, { onImported: onProjectImported });
