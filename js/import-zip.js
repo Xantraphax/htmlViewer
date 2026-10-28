@@ -6,7 +6,7 @@ const MAX_TEXT_BYTES = 2 * 1024 * 1024;
 const NAMES = ['index.html', 'styles.css', 'script.js'];
 
 /** Liest ein Projekt-ZIP und aktualisiert nach Bestätigung alle drei Editoren. */
-export async function importZipProject(data, label, editors, onImported) {
+export async function importZipProject(data, label, editors, onImported, { confirmOverwrite = true } = {}) {
   if (!window.JSZip) throw new Error('JSZip konnte nicht geladen werden.');
   if (data.size > MAX_ARCHIVE_BYTES) throw new Error('Das ZIP-Archiv ist zu groß (max. 10 MB).');
 
@@ -32,7 +32,7 @@ export async function importZipProject(data, label, editors, onImported) {
   if (!Object.hasOwn(content, 'index.html')) {
     throw new Error('Im ZIP fehlt index.html im Stammverzeichnis.');
   }
-  if (!window.confirm(`Projekt „${label}“ importieren? Die aktuellen Editorinhalte werden ersetzt.`)) {
+  if (confirmOverwrite && !window.confirm(`Projekt „${label}“ importieren? Die aktuellen Editorinhalte werden ersetzt.`)) {
     setStatus('ZIP-Import abgebrochen.');
     return false;
   }
