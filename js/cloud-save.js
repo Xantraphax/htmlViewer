@@ -3,7 +3,7 @@ import { createProjectZip, normalizeZipName } from './export.js';
 
 // Nach dem Deployment hier die URL DEINES Cloudflare Workers eintragen.
 // Beispiel: https://html-viewer-upload.DEIN-NAME.workers.dev
-const WORKER_URL = 'https://xantraphax.workers.dev'; // Nicht die öffentliche r2.dev-Adresse!
+const WORKER_URL = 'https://html-viewer-upload.xantraphax.workers.dev'; // Nicht die öffentliche r2.dev-Adresse!
 
 export function setupCloudSave(editors) {
   const button = required('cloudSaveBtn');
