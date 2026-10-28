@@ -27,5 +27,21 @@ export function ensureAssetLink(html, kind) {
   // DOMParser legt fehlende head/body automatisch an.
   // Bei Bedarf den vorhandenen Doctype erhalten.
   const doctype = doc.doctype ? `<!DOCTYPE ${doc.doctype.name}>\n` : '<!DOCTYPE html>\n';
-  return doctype + doc.documentElement.outerHTML;
+  // Strukturelle Tags stehen einzeln und ihre Kinder sind nachvollziehbar eingerückt.
+  // Quelltext in <pre>, <script>, <style> usw. bleibt unverändert.
+  const openTag = el => `<${el.localName}${[...el.attributes].map(a => ` ${a.name}=\"${a.value.replaceAll('\"','&quot;')}\"`).join('')}>`;
+  const lines = [doctype.trimEnd(), openTag(doc.documentElement)];
+  const addSection = (element, name) => {
+    lines.push(`  ${openTag(element)}`);
+    for (const child of element.childNodes) {
+      if (child.nodeType === Node.TEXT_NODE && !child.textContent.trim()) continue;
+      const markup = child.nodeType === Node.ELEMENT_NODE ? child.outerHTML : child.textContent;
+      for (const line of markup.split('\n')) lines.push(`    ${line}`);
+    }
+    lines.push(`  </${name}>`);
+  };
+  addSection(doc.head, 'head');
+  addSection(doc.body, 'body');
+  lines.push('</html>');
+  return lines.join('\n');
 }
