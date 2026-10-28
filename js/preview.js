@@ -33,6 +33,12 @@ export function setupPreview(editors, overlay) {
     const css=editors.get('css'),js=editors.get('js');
     token=crypto.randomUUID();
     overlay.beginRender();
+    // Standard-Hintergrund vor Nutzer-CSS: transparente Dokumente bleiben auch im Vollbild weiß.
+    // Eine eigene Hintergrundfarbe im HTML oder CSS überschreibt diesen Standard.
+    const fallbackStyle=doc.createElement('style');
+    fallbackStyle.setAttribute('data-viewer-default-background', '');
+    fallbackStyle.textContent='html { background-color: #fff; }';
+    doc.head.insertBefore(fallbackStyle, doc.head.firstChild);
     // Console-Bootstrap MUSS vor Benutzerskripten stehen.
     const consoleScript=doc.createElement('script');
     consoleScript.textContent=inlineSafe(bridge(token));
