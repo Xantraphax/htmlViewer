@@ -24,6 +24,7 @@
     </details>
     <button id="exportBtn" type="button">Exportieren (ZIP)</button>
     <button id="cloudSaveBtn" type="button">Cloud speichern</button>
+    <button id="cloudLoadBtn" type="button">Cloud laden</button>
     <button id="importZipBtn" type="button">ZIP importieren</button>
     <button id="importLinkBtn" type="button">ZIP per Link importieren</button>
     <input id="importZipFile" type="file" accept=".zip,application/zip,application/x-zip-compressed" hidden>
@@ -45,6 +46,22 @@
     <div class="cloud-dialog-actions">
       <button type="button" id="cloudFolderCancel">Abbrechen</button>
       <button type="button" id="cloudFolderSave">Hier speichern</button>
+    </div>
+  </dialog>
+  <dialog id="cloudLoadDialog" aria-labelledby="cloudLoadTitle">
+    <h2 id="cloudLoadTitle">Projekt aus R2 laden</h2>
+    <label>Cloud-Passwort <input id="cloudLoadPassword" type="password" autocomplete="off"></label>
+    <div class="cloud-browser-toolbar">
+      <button id="cloudLoadReload" type="button">Ordner anzeigen / Aktualisieren</button>
+      <button id="cloudLoadBack" type="button">↑ Zurück</button>
+    </div>
+    <p>Aktueller Ordner: <strong id="cloudLoadPath">projects/</strong></p>
+    <div class="cloud-folder-list" id="cloudLoadFolders" aria-label="Unterordner"></div>
+    <div class="cloud-file-list" id="cloudLoadFiles" aria-label="ZIP-Dateien"></div>
+    <p id="cloudLoadSelected">Noch keine ZIP-Datei ausgewählt.</p>
+    <div class="cloud-dialog-actions">
+      <button id="cloudLoadCancel" type="button">Abbrechen</button>
+      <button id="cloudLoadImport" type="button" disabled>Ausgewähltes ZIP laden</button>
     </div>
   </dialog>
   <div id="main">
